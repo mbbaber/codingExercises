@@ -18,3 +18,13 @@ function missingNumber2(arr) { // try sumTotal = sumArray
 }
 
 console.log(missingNumber2([1,2,3,4,6,7,8,9,10]));
+
+function missingNumber3(arr) { // try with a reduce
+    const sumArr = arr.reduce((total, item) => {
+        return total + item;
+    }, 0)
+    const sumTotal = (arr.length+1)*((arr.length+2)/2);
+    return sumTotal - sumArr
+}
+
+console.log(missingNumber3([1,2,3,4,6,7,8,9,10]))
