@@ -1,3 +1,6 @@
+// swapping values in a linked list (3, 6);
+// Create a function that returns the nth last element of a singly linked list.
+
 class Node {
     constructor(data, next = null) {
         this.data = data;
@@ -131,6 +134,91 @@ class LinkedList {
             currentNode = currentNode.next;
         }
     }
+
+    returnNthToLastElement(n) {
+        let currentNode = this.head;
+        let counter = 0;
+        let trailingNode = null;
+
+        while (currentNode != null) {
+            if (counter == n) {
+                trailingNode = this.head;
+            }
+            if (counter > n) {
+                trailingNode = trailingNode.next
+            }
+            currentNode = currentNode.next;
+            counter++
+        }
+
+        if (trailingNode != null) {
+            return trailingNode;
+        } else {
+            console.log('not long enough')
+        }
+    }
+
+    swapValues(data1, data2) {
+        let currentNode1 = this.head;
+        let currentNode2 = this.head;
+
+        let beforeTargetNode1;
+        let beforeTargetNode2;
+
+        let targetNode1 = null
+        let targetNode2 = null;
+
+        while (currentNode1 != null) {
+            if (currentNode1.data == data1) {
+                targetNode1 = currentNode1;
+                break;
+            }
+            beforeTargetNode1 = currentNode1;
+            currentNode1 = currentNode1.next;
+        }
+
+        while (currentNode2 != null) {
+            if (currentNode2.data == data2) {
+                targetNode2 = currentNode2;
+                break;
+            }
+            beforeTargetNode2 = currentNode2;
+            currentNode2 = currentNode2.next;
+        }
+
+        if (targetNode1 === null || targetNode2 === null) {
+            console.log('data does not exist');
+        } else {
+            let next2 = targetNode2.next;
+            let next1 = targetNode1.next;
+
+            beforeTargetNode1.next = targetNode2;
+            beforeTargetNode2.next = targetNode1;
+
+            targetNode1.next = next2;
+            targetNode2.next = next1;
+        }
+    }
+
+    findUniqueValues() {
+        let currentNode = this.head;
+        let hash = {};
+        while (currentNode != null) {
+            let key = currentNode.data;
+            if (hash[key]) {
+                hash[key] += 1;
+            } else {
+                hash[key] = 1;
+            }
+            currentNode = currentNode.next;
+        }
+        let resultString = 'The unique data are: '
+        Object.entries(hash).filter(n => n[1] === 1).forEach(n => {
+            resultString += `${n[0]}, `
+        });
+        //Object.keys(hash).filter(n => n.value == 1);
+        console.log(resultString);
+    }
 }
 
 maggieList = new LinkedList
@@ -154,6 +242,7 @@ orderedList.addTail(1)
 orderedList.addTail(2);
 orderedList.addTail(3);
 orderedList.addTail(5);
+orderedList.addTail(3);
 orderedList.addTail(6);
 orderedList.addTail(7);
 orderedList.printList();
@@ -161,3 +250,10 @@ orderedList.addNumberIntoOrderedList(4);
 orderedList.printList();
 orderedList.deleteNumberFromOrderedList(5);
 orderedList.printList();
+
+const result = orderedList.returnNthToLastElement(2)
+console.log(result);
+
+orderedList.swapValues(2, 7);
+orderedList.printList();
+orderedList.findUniqueValues();
